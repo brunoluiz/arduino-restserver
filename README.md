@@ -1,7 +1,7 @@
 RestServer for Arduino
 ----------------------
 
-This lib implements a REST API Server for Arduino in the way that web frameworks implements: "router-oriented"
+This lib implements a REST API Server for Arduino + Ethernet in the way that web frameworks implements: "router-oriented"
 
 All the endpoints of the API are implemented by the developer in functions and these are added as routes at the REST Server. This gives you more control of what is happening and gives a smaller compiled output. So, you will not have any "out-of-box" endpoint like http://arduino/digital/1, but you can easily implement, if you want.
 
@@ -36,6 +36,7 @@ To-do
 - Optimize the code: today, with the logs enabled, it weights ~21kb (with all necessary libs included)
 - Try to do some heavy tests: I did it for a college project, so it is not heavy tested yet
 - Route name treatment to check if there is a "/" or not
+- Wi-Fi support
 - Comment the code
 
 If you want to colaborate, feel free to help me and send pull requests. If you have any doubt, question or suggestion, my e-mail is contato@brunoluiz.net
