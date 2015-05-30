@@ -1,4 +1,4 @@
-#define N_LOG
+// #define N_LOG
 // #define N_DEBUG
 
 #include <RestServer.h>
@@ -19,6 +19,12 @@ void digital(char * params = "") {
   rest.add("lorem", "ipsum");
 }
 
+void analog(char * params = "") {
+  rest.add("random-text", "Lorem ipsum");
+  rest.add("test", (int)1);
+  rest.add("lorem", "ipsum");
+}
+
 void setup() {
   // Open serial communications and wait for port to open:
   LOG_SETUP();
@@ -36,6 +42,7 @@ void setup() {
 
   // // Add routes to the REST Server
   rest.addRoute("*", "/digital", digital);
+  // rest.addRoute("GET", "/analog", analog);
 }
 
 void loop() {

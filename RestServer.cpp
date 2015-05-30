@@ -15,7 +15,6 @@ void RestServer::run() {
     send(8, 0);
 
     client_.stop();
-    DLOG("Client disonnected");
 
     reset();
   }
@@ -192,11 +191,6 @@ void RestServer::check() {
 
   }
 
-  DLOG("Detected route:");
-  DLOG(route);
-  DLOG("Detected method:");
-  DLOG(method);
-
   for(int i = 0; i < routesIndex_; i++) {
       // Check if the routes names matches
       if(memcmp( route, routes_[i].name, sizeof(routes_[i].name) ) != 0)
@@ -209,7 +203,9 @@ void RestServer::check() {
           continue;
       }
 
-      DLOG("Requesting route callback...");
+      // Route callback (function)
+      DLOG("Route callback");
+      DLOG(route);
       routes_[i].callback(query);
   }
 
