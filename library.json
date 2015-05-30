@@ -1,0 +1,12 @@
+{
+  "name": "RestServer",
+  "keywords": "rest, ethernet, http, web, server, json",
+  "description": "Arduino Rest Server 'route-oriented'",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/brnluiz/arduino-rest-server.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
+}
