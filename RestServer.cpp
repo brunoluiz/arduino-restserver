@@ -50,7 +50,7 @@ void RestServer::addToBuffer(char * value) {
   bufferIndex_ = bufferIndex_ + strlen(value);
 }
 
-void RestServer::add(char* name, char * value) {
+void RestServer::addData(char* name, char * value) {
   char bufferAux[255] = {0};
   uint16_t idx = 0;
 
@@ -73,7 +73,7 @@ void RestServer::add(char* name, char * value) {
 
 // Add to output buffer_
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(ESP8266) || defined(CORE_WILDFIRE)
-void RestServer::add(char* name, String& value){
+void RestServer::addData(char* name, String& value){
   for (int i = 0; i < value.length(); i++){
     buffer_[bufferIndex_+i] = value[i];  
   }
@@ -82,28 +82,28 @@ void RestServer::add(char* name, String& value){
 #endif
 
 // Add to output buffer_
-void RestServer::add(char* name, uint16_t value){
+void RestServer::addData(char* name, uint16_t value){
   char number[10];
   itoa(value,number,10);
   
-  add(name, number);
+  addData(name, number);
 }
 
 // Add to output buffer_
-void RestServer::add(char* name, int value){
+void RestServer::addData(char* name, int value){
   char number[10];
   itoa(value,number,10);
   
-  add(name, number);
+  addData(name, number);
 }
 
 // Add to output buffer_ (Mega & ESP only)
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(ESP8266) || defined(CORE_WILDFIRE)
-void RestServer::add(char* name, float value){
+void RestServer::addData(char* name, float value){
   char number[10];
   dtostrf(value, 5, 2, number);
   
-  add(name, number);
+  addData(name, number);
 }
 #endif
 

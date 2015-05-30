@@ -15,14 +15,14 @@ EthernetServer server(80);
 RestServer rest(server);
 
 void digital(char * params = "") {
-  rest.add("hello", "world");
-  rest.add("lorem", "ipsum");
+  rest.addData("hello", "world");
+  rest.addData("lorem", "ipsum");
 }
 
 void analog(char * params = "") {
-  rest.add("random-text", "Lorem ipsum");
-  rest.add("test", (int)1);
-  rest.add("lorem", "ipsum");
+  rest.addData("random-text", "Lorem ipsum");
+  rest.addData("test", (int)1);
+  rest.addData("lorem", "ipsum");
 }
 
 void setup() {
@@ -42,7 +42,7 @@ void setup() {
 
   // // Add routes to the REST Server
   rest.addRoute("*", "/digital", digital);
-  // rest.addRoute("GET", "/analog", analog);
+  rest.addRoute("GET", "/analog", analog);
 }
 
 void loop() {

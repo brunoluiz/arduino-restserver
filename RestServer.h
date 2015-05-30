@@ -21,11 +21,11 @@ public:
   
   void addRoute(char * method, char * route, void (*f)(char *));
   
-  void add(char* name, String& value);
-  void add(char* name, uint16_t value);
-  void add(char* name, int value);
-  void add(char* name, float value);
-  void add(char* name, char* value);
+  void addData(char* name, String& value);
+  void addData(char* name, uint16_t value);
+  void addData(char* name, int value);
+  void addData(char* name, float value);
+  void addData(char* name, char* value);
 
 private:
   Routes routes_[ROUTES_TOTAL];
