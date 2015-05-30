@@ -39,7 +39,7 @@ private:
   void check();
   void reset();
   void addToBuffer(char * value);
-  void send(uint8_t chunkSize, uint8_t wait_time);
+  void send(uint8_t chunkSize, uint8_t delayTime);
 };
 
 #endif

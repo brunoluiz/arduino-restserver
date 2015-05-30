@@ -8,20 +8,27 @@ void RestServer::run() {
   client_ = server_.available();
   if (client_) {
     JSON_START();
+    // Check the received request and process it
     check();
     bufferIndex_--;
     JSON_CLOSE();
 
+    // Send data for the client
     send(8, 0);
 
+    // Stop the client connection
     client_.stop();
 
+    // Necessary resets
     reset();
   }
 }
 
 void RestServer::reset() {
+  // Reset buffer
   memset(&buffer_[0], 0, sizeof(buffer_));
+
+  // Reset buffer index
   bufferIndex_ = 0;
 }
 
@@ -44,24 +51,24 @@ void RestServer::addToBuffer(char * value) {
 }
 
 void RestServer::add(char* name, char * value) {
-  char buffer_aux[255] = {0};
+  char bufferAux[255] = {0};
   uint16_t idx = 0;
 
-  buffer_aux[idx++] = '"';
+  bufferAux[idx++] = '"';
   for (int i = 0; i < strlen(name); i++){
-    buffer_aux[idx++] = name[i];
+    bufferAux[idx++] = name[i];
   }
-  buffer_aux[idx++] = '"';
+  bufferAux[idx++] = '"';
 
-  buffer_aux[idx++] = ':';
-  buffer_aux[idx++] = '"';
+  bufferAux[idx++] = ':';
+  bufferAux[idx++] = '"';
   for (int i = 0; i < strlen(value); i++){
-    buffer_aux[idx++] = value[i];  
+    bufferAux[idx++] = value[i];  
   }
-  buffer_aux[idx++] = '"';
-  buffer_aux[idx++] = ',';
+  bufferAux[idx++] = '"';
+  bufferAux[idx++] = ',';
 
-  addToBuffer(buffer_aux);
+  addToBuffer(bufferAux);
 }
 
 // Add to output buffer_
@@ -100,8 +107,8 @@ void RestServer::add(char* name, float value){
 }
 #endif
 
-void RestServer::send(uint8_t chunkSize, uint8_t wait_time) {
-  // Send the HTTP Header
+void RestServer::send(uint8_t chunkSize, uint8_t delayTime) {
+  // First, send the HTTP Header
   client_.println(HTTP_COMMON_HEADER);
 
   // Send all of it
@@ -110,19 +117,19 @@ void RestServer::send(uint8_t chunkSize, uint8_t wait_time) {
 
   // Send chunk by chunk #####################################
 
-  // Max iteration
+  // Max iterations
   uint8_t max = (int)(bufferIndex_/chunkSize) + 1;
 
   // Send data
   for (uint8_t i = 0; i < max; i++) {
-    char buffer_aux[chunkSize+1];
-    memcpy(buffer_aux, buffer_ + i*chunkSize, chunkSize);
-    buffer_aux[chunkSize] = '\0';
+    char bufferAux[chunkSize+1];
+    memcpy(bufferAux, buffer_ + i*chunkSize, chunkSize);
+    bufferAux[chunkSize] = '\0';
 
-    client_.print(buffer_aux);
+    client_.print(bufferAux);
 
     // Wait for client_ to get data
-    delay(wait_time);
+    delay(delayTime);
   }
 }
 
