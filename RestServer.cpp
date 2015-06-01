@@ -1,7 +1,6 @@
 #include "RestServer.h"
 
 RestServer::RestServer(EthernetServer& server): server_(server), routesIndex_(0), bufferIndex_(0) {
-  // server_ = server;
 }
 
 void RestServer::run() {
@@ -200,13 +199,13 @@ void RestServer::check() {
 
   for(int i = 0; i < routesIndex_; i++) {
       // Check if the routes names matches
-      if(memcmp( route, routes_[i].name, sizeof(routes_[i].name) ) != 0)
+      if(strncmp( route, routes_[i].name, sizeof(routes_[i].name) ) != 0)
         continue;
 
       // Check if the HTTP METHOD matters for this route
-      if(memcmp( routes_[i].method, "*", sizeof(routes_[i].method) ) != 0) {
+      if(strncmp( routes_[i].method, "*", sizeof(routes_[i].method) ) != 0) {
         // If it matters, check if the methods matches
-        if(memcmp( method, routes_[i].method, sizeof(routes_[i].method) ) != 0)
+        if(strncmp( method, routes_[i].method, sizeof(routes_[i].method) ) != 0)
           continue;
       }
 

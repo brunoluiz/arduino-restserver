@@ -37,6 +37,7 @@ To-do
 - Try to do some heavy tests: I did it for a college project, so it is not heavy tested yet
 - Route name treatment to check if there is a "/" or not
 - Wi-Fi support
+- Add a decent POST/PUT processing (actually I'm processing it as GET request)
 - Comment the code
 
 If you want to colaborate, feel free to help me and send pull requests. If you have any doubt, question or suggestion, my e-mail is contato@brunoluiz.net
