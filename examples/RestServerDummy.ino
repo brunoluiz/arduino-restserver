@@ -35,8 +35,8 @@ void setup() {
   LOG( Ethernet.localIP() );
 
   // Add routes to the REST Server
-  rest.addRoute("*", "/digital", digital);
-  rest.addRoute("GET", "/analog", analog);
+  rest.addRoute(ANY, "/digital", digital);
+  rest.addRoute(GET, "/analog", analog);
 }
 
 void loop() {

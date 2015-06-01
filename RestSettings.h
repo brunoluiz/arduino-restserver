@@ -1,25 +1,16 @@
 #ifndef restsettings_h
 #define restsettings_h
 
-
 #ifndef ROUTES_TOTAL
 #define ROUTES_TOTAL 5
 #endif
 
 #ifndef ROUTES_LENGHT
-#define ROUTES_LENGHT 25
+#define ROUTES_LENGHT 30
 #endif
 
-#ifndef CHECK_MAX_ROUTE_LENGTH
-#define CHECK_MAX_ROUTE_LENGTH 45
-#endif
-
-#ifndef CHECK_MAX_METHOD_LENGTH
-#define CHECK_MAX_METHOD_LENGTH 6
-#endif
-
-#ifndef CHECK_MAX_QUERY_LENGTH
-#define CHECK_MAX_QUERY_LENGTH 30
+#ifndef QUERY_LENGTH
+#define QUERY_LENGTH 50
 #endif
 
 #ifndef HTTP_COMMON_HEADER
@@ -33,5 +24,15 @@
 #define JSON_START() addToBuffer("{ ");
 #define JSON_CLOSE() addToBuffer(" }");
 
+
+#define METHODS_LENGTH 7
+#define ANY "*"
+#define GET "GET"
+#define PUT "PUT"
+#define HEAD "HEAD"
+#define POST "POST"
+#define TRACE "TRACE"
+#define DELETE "DELETE"
+#define OPTIONS "OPTIONS"
 
 #endif

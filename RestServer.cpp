@@ -37,8 +37,8 @@ void RestServer::addRoute(char * method, char * route, void (*f)(char * params) 
   routes_[routesIndex_].name     = route;
   routes_[routesIndex_].callback = f;
   
-  DLOG( "Route added:" );
-  DLOG( routes_[routesIndex_].name );
+  // DLOG( "Route added:" );
+  // DLOG( routes_[routesIndex_].name );
   routesIndex_++;
 }
 
@@ -53,6 +53,8 @@ void RestServer::addData(char* name, char * value) {
   char bufferAux[255] = {0};
   uint16_t idx = 0;
 
+  // Format the data as:
+  // "name":"value",
   bufferAux[idx++] = '"';
   for (int i = 0; i < strlen(name); i++){
     bufferAux[idx++] = name[i];
@@ -106,8 +108,9 @@ void RestServer::addData(char* name, float value){
 }
 #endif
 
+// Send the HTTP response for the client
 void RestServer::send(uint8_t chunkSize, uint8_t delayTime) {
-  // First, send the HTTP Header
+  // First, send the HTTP Common Header
   client_.println(HTTP_COMMON_HEADER);
 
   // Send all of it
@@ -125,6 +128,7 @@ void RestServer::send(uint8_t chunkSize, uint8_t delayTime) {
     memcpy(bufferAux, buffer_ + i*chunkSize, chunkSize);
     bufferAux[chunkSize] = '\0';
 
+    // DLOGChar(bufferAux);
     client_.print(bufferAux);
 
     // Wait for client_ to get data
@@ -132,19 +136,20 @@ void RestServer::send(uint8_t chunkSize, uint8_t delayTime) {
   }
 }
 
+// Extract information about the HTTP Header
 void RestServer::check() {
-  char route[CHECK_MAX_ROUTE_LENGTH] = {0};
+  char route[ROUTES_LENGHT] = {0};
   bool routePrepare = false;
-  bool routeReady = false;
+  bool routeCatchFinished = false;
   uint8_t r = 0;
 
-  char query[CHECK_MAX_QUERY_LENGTH] = {0};
+  char query[QUERY_LENGTH] = {0};
   bool queryPrepare = false;
-  bool queryReady = false;
+  bool queryCatchFinished = false;
   uint8_t q = 0;
   
-  char method[CHECK_MAX_ROUTE_LENGTH] = {0};
-  bool methodReady = false;
+  char method[METHODS_LENGTH] = {0};
+  bool methodCatchFinished = false;
   uint8_t m = 0;
 
   bool currentLineIsBlank = true;
@@ -155,10 +160,16 @@ void RestServer::check() {
 
     // Start end of line process ////////////////
     // if you've gotten to the end of the line (received a newline
-    // character) and the line is blank, the http request has ended,
-    // so you can send a reply
-    if (c == '\n' && currentLineIsBlank)
+    // character) and the line is blank, the http request header has ended,
+    // so you can send a reply or check the body of the http header
+    if (c == '\n' && currentLineIsBlank) {
+      // Here is where the parameters of other HTTP Methods will be.
+      while(client_.available() && client_.connected())
+        query[q++] = (client_.read());
+      
       break;
+    }
+
     if (c == '\n')
       currentLineIsBlank = true; // you're starting a new line
     else if (c != '\r')
@@ -170,17 +181,17 @@ void RestServer::check() {
       routePrepare = true;
 
     if((c == ' ' || c == '?') && routePrepare)
-      routeReady = true;
+      routeCatchFinished = true;
 
-    if(routePrepare && !routeReady)
+    if(routePrepare && !routeCatchFinished)
       route[r++] = c;
     // End route catch process //////////////////
 
     // Start query catch process ////////////////
     if(c == ' ' && queryPrepare)
-      queryReady = true;
+      queryCatchFinished = true;
 
-    if(queryPrepare && !queryReady)
+    if(queryPrepare && !queryCatchFinished)
       query[q++] = c;
 
     if(c == '?' && !queryPrepare)
@@ -188,10 +199,10 @@ void RestServer::check() {
     // End query catch process /////////////////
 
     // Start method catch process ///////////////
-    if(c == ' ' && !methodReady)
-      methodReady = true;
+    if(c == ' ' && !methodCatchFinished)
+      methodCatchFinished = true;
 
-    if(!methodReady)
+    if(!methodCatchFinished)
       method[m++] = c;
     // End method catch process /////////////////
 
@@ -210,8 +221,8 @@ void RestServer::check() {
       }
 
       // Route callback (function)
-      DLOG("Route callback");
-      DLOG(route);
+      // DLOG("Route callback");
+      // DLOG(route);
       routes_[i].callback(query);
   }
 

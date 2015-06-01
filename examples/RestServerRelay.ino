@@ -53,8 +53,8 @@ void setup() {
   LOG( Ethernet.localIP() );
 
   // Add routes to the REST Server
-  rest.addRoute("POST", "/relayPin", setRelay);
-  rest.addRoute("GET" , "/relayPin", getRelay);
+  rest.addRoute(POST, "/relayPin", setRelay);
+  rest.addRoute(GET,  "/relayPin", getRelay);
 
   // Setup relayPin and other sensors
   pinMode(relayPin, OUTPUT); // Set Pin7 as output 
