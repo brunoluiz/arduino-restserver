@@ -20,7 +20,7 @@ Setup
   - Example: ```void digital(char * params = "") {;} ```
 - At setup():
   - Setup and start your EthernetServer
-  - Add the routes of your RestServer. For that use ```rest.addRoute("*", "/digital", digital);```
+  - Add the routes of your RestServer. For that use ```rest.addRoute(ANY, "/digital", digital);```
     - The first argument is which HTTP Method you want to use. In this case the route will accept any and will process it in the same way
     - The second argument is the route name. YOU ALWAYS NEED TO PUT THE "/" AT THE BEGINNING (I didn't write any code to "treat" this).
     - The last argument is the function which will be used as callback for the route
@@ -37,7 +37,6 @@ To-do
 - Try to do some heavy tests: I did it for a college project, so it is not heavy tested yet
 - Route name treatment to check if there is a "/" or not
 - Wi-Fi support
-- Add a decent POST/PUT processing (actually I'm processing it as GET request)
 - Comment the code
 
 If you want to colaborate, feel free to help me and send pull requests. If you have any doubt, question or suggestion, my e-mail is contato@brunoluiz.net
