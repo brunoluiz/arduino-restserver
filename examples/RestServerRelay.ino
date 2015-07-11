@@ -1,5 +1,5 @@
 // #define N_LOG
-// #define N_DEBUG
+#define N_DEBUG
 
 #include <RestServer.h>
 #include <UIPEthernet.h>
@@ -14,18 +14,20 @@ RestServer rest(server); // You need to pass the EthernetServer reference to the
 
 // Relay Pin is at Digital port 7
 // Relay States have inverted logic, so to return data I used the "!"
-int relayPin = 7;
-int relayState = RELAY_OFF;
 #define RELAY_ON    LOW
 #define RELAY_OFF  HIGH
+int relayPin = 7;
+int relayState = RELAY_OFF;
 
 void setRelay(char * params = "") {
   if( strncmp( params, "active=1", 8 ) == 0) {
     relayState = RELAY_ON;
+    DLOG("on");
     digitalWrite(relayPin, relayState);
   }
   else if( strncmp( params, "active=0", 8 ) == 0) {
     relayState = RELAY_OFF;
+    DLOG("off");
     digitalWrite(relayPin, relayState);
   }
 

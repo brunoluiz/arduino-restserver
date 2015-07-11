@@ -99,14 +99,14 @@ void RestServer::addData(char* name, int value){
 }
 
 // Add to output buffer_ (Mega & ESP only)
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(ESP8266) || defined(CORE_WILDFIRE)
+// #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(ESP8266) || defined(CORE_WILDFIRE)
 void RestServer::addData(char* name, float value){
   char number[10];
   dtostrf(value, 5, 2, number);
   
   addData(name, number);
 }
-#endif
+// #endif
 
 // Send the HTTP response for the client
 void RestServer::send(uint8_t chunkSize, uint8_t delayTime) {
@@ -221,9 +221,9 @@ void RestServer::check() {
       }
 
       // Route callback (function)
-      // DLOG("Route callback");
       // DLOG(route);
       routes_[i].callback(query);
+      LOG("Route callback!");
   }
 
 }
